@@ -16,6 +16,7 @@ import net.imyeyu.bfxtest.view.pages.PageByteSpeed;
 import net.imyeyu.bfxtest.view.pages.PageCSS;
 import net.imyeyu.bfxtest.view.pages.PageComboBox;
 import net.imyeyu.bfxtest.view.pages.PageGroup;
+import net.imyeyu.bfxtest.view.pages.PageTest;
 import net.imyeyu.bfxtest.view.pages.PageTitlePane;
 import net.imyeyu.bfxtest.view.pages.PageList;
 import net.imyeyu.bfxtest.view.pages.PageNoSelectionModel;
@@ -63,6 +64,7 @@ public class Main extends ViewMain {
 					alert.show();
 					return false;
 				}),
+				new Page("自由测试", new PageTest()),
 			};
 			for (int i = 0; i < pages.length; i++) {
 				extend.getChildren().add(new TreeItem<>(pages[i]));
