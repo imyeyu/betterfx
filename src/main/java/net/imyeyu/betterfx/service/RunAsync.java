@@ -2,6 +2,8 @@ package net.imyeyu.betterfx.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 
 /**
  * 异步执行
@@ -13,8 +15,16 @@ import javafx.concurrent.Task;
  *         // 这里不是 FX 线程，可以执行一些长时间的事情
  *     }
  *
- *     public void onFinish(String t) {
- *         // 参数是 call() 执行的返回结果，这里是 FX 线程，可以操作 UI
+ *     public void onUpdate(String value) {
+ *         // call() 调用
+ *     }
+ *
+ *     public void onFinish() {
+ *         // 线程执行完成时触发，属于 FX 线程
+ *     }
+ *
+ *     public void onFinish(String lastValue) {
+ *         // 线程执行完成时触发，属于 FX 线程
  *     }
  *
  *     public void onException(Throwable e) {
@@ -28,7 +38,7 @@ import javafx.concurrent.Task;
  * 夜雨 创建于 2021-02-13 12:56
  */
 public abstract class RunAsync<T> extends Service<T> {
-	
+
 	public RunAsync() {
 		setOnSucceeded(e -> onFinish());
 		valueProperty().addListener((obs, o, t) -> onFinish(t));
@@ -49,19 +59,19 @@ public abstract class RunAsync<T> extends Service<T> {
 	 * @return 处理结果
 	 * @throws Exception 处理异常
 	 */
-	public abstract T call() throws Exception;
+	protected abstract T call() throws Exception;
 
 	/** 完成事件（FX 线程，只要线程结束就会调用） */
-	public void onFinish() {
-
+	protected void onFinish() {
+		// 子类实现
 	}
 	
 	/**
-	 * 完成事件（FX 线程，返回非 null 时触发）
+	 * 完成事件（FX 线程，call() 返回非 null 时触发）
 	 * 
 	 * @param t 执行事件返回值
 	 */
-	public void onFinish(T t) {
+	protected void onFinish(T t) {
 		// 子类实现
 	}
 
@@ -70,7 +80,7 @@ public abstract class RunAsync<T> extends Service<T> {
 	 *
 	 * @param e 异常
 	 */
-	public void onException(Throwable e) {
+	protected void onException(Throwable e) {
 		e.printStackTrace();
 	}
 }
