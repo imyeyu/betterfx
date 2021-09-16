@@ -18,6 +18,7 @@ public class PageCSS extends TextArea implements BetterFX {
 
 	public PageCSS() {
 		new RunAsync<String>() {
+
 			@Override
 			public String call() throws Exception {
 				String result = "";
@@ -39,10 +40,12 @@ public class PageCSS extends TextArea implements BetterFX {
 				}
 				return result;
 			}
+
 			@Override
 			public void onFinish(String s) {
 				setText(s);
 			}
+
 			@Override
 			public void onException(Throwable e) {
 				setText("无法读取 CSS 文件");
